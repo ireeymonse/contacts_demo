@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		105439CE211A569100B0253C /* ActiveContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105439CD211A569100B0253C /* ActiveContactsViewController.swift */; };
 		10E98A0A2117E8FA008EF0FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E98A092117E8FA008EF0FB /* AppDelegate.swift */; };
-		10E98A0C2117E8FA008EF0FB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E98A0B2117E8FA008EF0FB /* ViewController.swift */; };
 		10E98A0F2117E8FA008EF0FB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10E98A0D2117E8FA008EF0FB /* Main.storyboard */; };
 		10E98A122117E8FA008EF0FB /* La_App.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 10E98A102117E8FA008EF0FB /* La_App.xcdatamodeld */; };
 		10E98A142117E8FC008EF0FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10E98A132117E8FC008EF0FB /* Assets.xcassets */; };
@@ -27,9 +27,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		105439CD211A569100B0253C /* ActiveContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveContactsViewController.swift; sourceTree = "<group>"; };
 		10E98A062117E8FA008EF0FB /* La App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "La App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		10E98A092117E8FA008EF0FB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		10E98A0B2117E8FA008EF0FB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		10E98A0E2117E8FA008EF0FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		10E98A112117E8FA008EF0FB /* La_App.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = La_App.xcdatamodel; sourceTree = "<group>"; };
 		10E98A132117E8FC008EF0FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -58,6 +58,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		105439D1211A586900B0253C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				105439CD211A569100B0253C /* ActiveContactsViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		105439D3211A58A300B0253C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				10E98A102117E8FA008EF0FB /* La_App.xcdatamodeld */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		10E989FD2117E8FA008EF0FB = {
 			isa = PBXGroup;
 			children = (
@@ -79,13 +95,13 @@
 		10E98A082117E8FA008EF0FB /* La App */ = {
 			isa = PBXGroup;
 			children = (
-				10E98A092117E8FA008EF0FB /* AppDelegate.swift */,
-				10E98A0B2117E8FA008EF0FB /* ViewController.swift */,
 				10E98A0D2117E8FA008EF0FB /* Main.storyboard */,
 				10E98A132117E8FC008EF0FB /* Assets.xcassets */,
 				10E98A152117E8FC008EF0FB /* LaunchScreen.storyboard */,
+				10E98A092117E8FA008EF0FB /* AppDelegate.swift */,
+				105439D3211A58A300B0253C /* Model */,
+				105439D1211A586900B0253C /* Controller */,
 				10E98A182117E8FC008EF0FB /* Info.plist */,
-				10E98A102117E8FA008EF0FB /* La_App.xcdatamodeld */,
 			);
 			path = "La App";
 			sourceTree = "<group>";
@@ -145,7 +161,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0940;
 				LastUpgradeCheck = 0940;
-				ORGANIZATIONNAME = "MacBook Pro";
+				ORGANIZATIONNAME = "Iree García";
 				TargetAttributes = {
 					10E98A052117E8FA008EF0FB = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -200,9 +216,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10E98A0C2117E8FA008EF0FB /* ViewController.swift in Sources */,
 				10E98A122117E8FA008EF0FB /* La_App.xcdatamodeld in Sources */,
 				10E98A0A2117E8FA008EF0FB /* AppDelegate.swift in Sources */,
+				105439CE211A569100B0253C /* ActiveContactsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,14 +378,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "La App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "iree.La-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -379,14 +398,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "La App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "iree.La-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
