@@ -41,5 +41,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSContactsUsageDescription</key>
+	<string>La App usa tus contactos para encontrar usuarios  ya conoces. Así será más fácil y rápido interactuar con ellos.</string>
 </dict>
 </plist>
