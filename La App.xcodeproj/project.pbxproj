@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		105439CE211A569100B0253C /* ActiveContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105439CD211A569100B0253C /* ActiveContactsViewController.swift */; };
+		10D3570E211B38E1006DA522 /* ActiveUserCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D3570D211B38E1006DA522 /* ActiveUserCreationViewController.swift */; };
+		10D35710211B4078006DA522 /* ActiveUser+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D3570F211B4078006DA522 /* ActiveUser+.swift */; };
 		10E98A0A2117E8FA008EF0FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E98A092117E8FA008EF0FB /* AppDelegate.swift */; };
 		10E98A0F2117E8FA008EF0FB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10E98A0D2117E8FA008EF0FB /* Main.storyboard */; };
 		10E98A122117E8FA008EF0FB /* La_App.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 10E98A102117E8FA008EF0FB /* La_App.xcdatamodeld */; };
@@ -28,6 +30,8 @@
 
 /* Begin PBXFileReference section */
 		105439CD211A569100B0253C /* ActiveContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveContactsViewController.swift; sourceTree = "<group>"; };
+		10D3570D211B38E1006DA522 /* ActiveUserCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveUserCreationViewController.swift; sourceTree = "<group>"; };
+		10D3570F211B4078006DA522 /* ActiveUser+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ActiveUser+.swift"; sourceTree = "<group>"; };
 		10E98A062117E8FA008EF0FB /* La App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "La App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		10E98A092117E8FA008EF0FB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		10E98A0E2117E8FA008EF0FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -62,6 +66,7 @@
 			isa = PBXGroup;
 			children = (
 				105439CD211A569100B0253C /* ActiveContactsViewController.swift */,
+				10D3570D211B38E1006DA522 /* ActiveUserCreationViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -70,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				10E98A102117E8FA008EF0FB /* La_App.xcdatamodeld */,
+				10D3570F211B4078006DA522 /* ActiveUser+.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -216,6 +222,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				10D3570E211B38E1006DA522 /* ActiveUserCreationViewController.swift in Sources */,
+				10D35710211B4078006DA522 /* ActiveUser+.swift in Sources */,
 				10E98A122117E8FA008EF0FB /* La_App.xcdatamodeld in Sources */,
 				10E98A0A2117E8FA008EF0FB /* AppDelegate.swift in Sources */,
 				105439CE211A569100B0253C /* ActiveContactsViewController.swift in Sources */,

@@ -14,19 +14,34 @@ class ActiveContactsViewController: UIViewController {
    
    @IBOutlet weak var tableView: UITableView!
    
-   // FIXME: implement active users logic
-   /// userIds are phone numbers, normalized to 10 digits
-   private var activeUsers: Set = ["8885555512", "5555228243", "4455228247", "1234567890"]
-   
-   private var sections = [String]()
-   private var contacts = [String: [LocalContact]]()
+   internal var sections = [String]()
+   internal var contacts = [String: [LocalContact]]()
    
    override func viewDidLoad() {
       super.viewDidLoad()
       fetchContacts()
+      
+      NotificationCenter.default.addObserver(self, selector:
+         #selector(contactsNeedReload(_:)), name: .ActiveUsersDidChange, object: nil)
+      NotificationCenter.default.addObserver(self, selector:
+         #selector(contactsNeedReload(_:)), name: .CNContactStoreDidChange, object: nil)
    }
    
-   private func fetchContacts() {
+   @objc func contactsNeedReload(_ notif: Notification) {
+      if notif.name == .CNContactStoreDidChange {
+         fetchContacts()
+      } else {
+         reloadContacts()
+      }
+   }
+   
+   deinit {
+      NotificationCenter.default.removeObserver(self)
+   }
+   
+   // MARK: - Data
+   
+   internal func fetchContacts() {
       let contactStore = CNContactStore()
       contactStore.requestAccess(for: .contacts) { [weak self] (success, error) in
          
@@ -55,8 +70,6 @@ class ActiveContactsViewController: UIViewController {
                      CNContactPhoneNumbersKey] as [CNKeyDescriptor]
          
          var results = [ContactResult]()
-         let activeUsers = self?.activeUsers ?? []
-         
          try? contactStore.enumerateContacts(with: CNContactFetchRequest(keysToFetch: keys)) { (contact, _) in
             
             let new = ContactResult()
@@ -67,9 +80,6 @@ class ActiveContactsViewController: UIViewController {
             new.initials = String([contact.givenName.first, contact.familyName.first].compactMap { $0 })
             new.numbers = contact.phoneNumbers.map { $0.value.stringValue }
             
-            // look for a phone number that corresponds to an active user
-            new.id = new.numbers.first(where: { activeUsers.contains(userId(from: $0)) })
-            
             results.append(new)
          }
          
@@ -77,39 +87,44 @@ class ActiveContactsViewController: UIViewController {
          DispatchQueue.main.async {
             // update records
             try? LocalContact.deleteAll() // brute force: delete all and write again
+            
             results.forEach {
                let local = LocalContact.insert()
                local.name = $0.name
                local.initials = $0.initials
                local.numbers = $0.numbers
-               local.userId = $0.id
             }
             try? NSManagedObjectContext.shared.save()
             
-            // separate alphabetically
-            let byIdAndName = [
-               NSSortDescriptor(key: "userId", ascending: true),
-               NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:)))]
-            
-            var contacts = [String: [LocalContact]]()
-            LocalContact.all(sorted: byIdAndName).forEach {
-               var key = String($0.name?.uppercased().first ?? "#")
-               if $0.userId != nil {   // active users go in the first section
-                  key = ""
-               }
-               contacts[key] = contacts[key] ?? [LocalContact]()
-               contacts[key]!.append($0)
-            }
-            
-            self?.contacts = contacts
-            self?.sections = contacts.keys.sorted()
-            self?.tableView.reloadData()
+            self?.reloadContacts()
          }
       }
    }
    
-   override func didReceiveMemoryWarning() {
-      super.didReceiveMemoryWarning()
+   internal func reloadContacts() {
+      // separate alphabetically
+      let byIdAndName = [
+         NSSortDescriptor(key: "userId", ascending: true),
+         NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:)))]
+      
+      contacts = [String: [LocalContact]]()
+      let actives = AppDelegate.shared.activeUsers
+      
+      LocalContact.all(sorted: byIdAndName).forEach {
+         // look for a phone number that corresponds to an active user
+         $0.userId = $0.numbers?.first {
+            actives.contains(ActiveUser.userId(from: $0)) }
+         
+         var key = String($0.name?.uppercased().first ?? "#")
+         if $0.userId != nil {   // active users go in the first section
+            key = ""
+         }
+         contacts[key] = contacts[key] ?? [LocalContact]()
+         contacts[key]!.append($0)
+      }
+      
+      sections = contacts.keys.sorted()
+      tableView.reloadData()
    }
    
    @IBAction func unwindToHome(_ segue: UIStoryboardSegue) {}
@@ -133,13 +148,21 @@ extension ActiveContactsViewController: UITableViewDataSource, UITableViewDelega
       let key = sections[indexPath.section]
       let contact = contacts[key]![indexPath.row]
       
-      // FIXME: custom cell class
       let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ContactCell
+      
       cell.titleLabel.text = contact.name
+      if contact.name == nil || contact.name!.isEmpty {
+         cell.titleLabel.text = "(Sin Nombre)"
+      }
       cell.subtitleLabel.text = contact.userId
       
       // TODO: cell.iconView.image = ...
-      cell.initialsLabel.text = contact.initials
+      cell.iconView?.backgroundColor = (contact.userId ?? "").isEmpty ? #colorLiteral(red: 0.7058823529, green: 0.7058823529, blue: 0.7058823529, alpha: 1) : #colorLiteral(red: 0.1875, green: 0.740625, blue: 0.75, alpha: 1)
+      
+      cell.initialsLabel?.text = contact.initials
+      if contact.initials == nil || contact.initials!.isEmpty {
+         cell.initialsLabel?.text = ":D"
+      }
       
       return cell
    }
@@ -172,8 +195,8 @@ class ContactCell: UITableViewCell {
    @IBOutlet weak var titleLabel: UILabel!
    @IBOutlet weak var subtitleLabel: UILabel!
    
-   @IBOutlet weak var iconView: UIImageView!
-   @IBOutlet weak var initialsLabel: UILabel!
+   @IBOutlet weak var iconView: UIImageView?
+   @IBOutlet weak var initialsLabel: UILabel?
 }
 
 
@@ -183,14 +206,6 @@ class ContactResult: NSObject {
    var name: String!
    var initials: String!
    var numbers: [String]!
-   var id: String?
-}
-
-private let digits = Set("1234567890")
-
-/// Returns the last 10 digits from the number, or less if shorter.
-func userId(from number: String) -> String {
-   return String( number.filter { digits.contains($0) }.suffix(10) )
 }
 
 

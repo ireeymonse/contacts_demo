@@ -9,34 +9,57 @@
 import UIKit
 import CoreData
 
+extension NSNotification.Name {
+   public static let ActiveUsersDidChange = Notification.Name("notif:userChanged!")
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+   
+   private(set) static var shared = UIApplication.shared.delegate as! AppDelegate
    var window: UIWindow?
 
    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+      
+      reloadActiveUsers(notifying: false)
       return true
    }
 
    func applicationWillTerminate(_ application: UIApplication) {
-      self.saveContext()
+      saveContext()
    }
+   
+   
+   // MARK: - Active users
+   
+   /// userIds are phone numbers, normalized to 10 digits
+   private(set) var activeUsers: Set<ActiveUserId> = []
+   
+   private func reloadActiveUsers(notifying: Bool) {
+      activeUsers = Set(ActiveUser.all().compactMap { $0.id })
+      if notifying {
+         NotificationCenter.default.post(name: .ActiveUsersDidChange, object: nil)
+      }
+   }
+   
+   func reloadActiveUsers() { reloadActiveUsers(notifying: true) }
 
+   
    // MARK: - Core Data stack
 
    lazy var persistentContainer: NSPersistentContainer = {
        let container = NSPersistentContainer(name: "La_App")
-       container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+       container.loadPersistentStores { (_, error) in
            if let error = error as NSError? {
-               print("Unresolved error \(error), \(error.userInfo)")
+               print("NSPersistentContainer error \(error), \(error.userInfo)")
            }
-       })
+       }
        return container
    }()
 
    // MARK: - Core Data Saving support
 
-   func saveContext () {
+   func saveContext() {
        let context = persistentContainer.viewContext
        if context.hasChanges {
            do {
@@ -55,7 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension NSManagedObjectContext {
    static var shared: NSManagedObjectContext {
-      return (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+      return AppDelegate.shared.persistentContainer.viewContext
    }
 }
 
@@ -70,11 +93,8 @@ extension NSFetchRequestResult where Self: NSManagedObject {
    
    /// Inserts a new NSManagedObject subclass instance in the shared context.
    /// *WARNING: don't call this on `NSManagedObject` directly
-   static func insert(with dict:[String: Any]? = nil) -> Self {
+   static func insert() -> Self {
       let new = NSEntityDescription.insertNewObject(forEntityName: name, into: NSManagedObjectContext.shared)
-      for (key, val) in dict ?? [:] {
-         new.setValue(val, forKey: key)
-      }
       return new as! Self
    }
    
@@ -99,9 +119,14 @@ extension NSFetchRequestResult where Self: NSManagedObject {
    }
    
    static func deleteAll() throws {
-      let container = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
-      let deleteRequest = NSBatchDeleteRequest(fetchRequest: NSFetchRequest(entityName: name))
-      try container.persistentStoreCoordinator.execute(deleteRequest, with: container.viewContext)
+      let context = NSManagedObjectContext.shared
+      let request = NSFetchRequest<Self>(entityName: name)
+      request.includesPropertyValues = false
+      
+      try context.fetch(request).forEach {
+         context.delete($0)
+      }
+      try context.save()
    }
 }
 
