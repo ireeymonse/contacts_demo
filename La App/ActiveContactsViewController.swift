@@ -9,6 +9,7 @@
 import UIKit
 import Contacts
 import CoreData
+import MessageUI
 
 class ActiveContactsViewController: UIViewController {
    
@@ -127,6 +128,17 @@ class ActiveContactsViewController: UIViewController {
       tableView.reloadData()
    }
    
+   
+   // MARK: - Navigation
+   
+   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+      super.prepare(for: segue, sender: sender)
+      
+      if let detail = segue.destination as? ContactDetailsViewController {
+         detail.contact = sender as! LocalContact
+      }
+   }
+   
    @IBAction func unwindToHome(_ segue: UIStoryboardSegue) {}
 }
 
@@ -167,20 +179,52 @@ extension ActiveContactsViewController: UITableViewDataSource, UITableViewDelega
       return cell
    }
    
-   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      // TODO: finish
-      performSegue(withIdentifier: "detail", sender: nil)
-   }
-   
    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
       // no header for active contacts
-      return sections[section].isEmpty ? 0 : 32
+      return sections[section].isEmpty ? 0 : 40
    }
    
    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
       let hdr = tableView.dequeueReusableCell(withIdentifier: "header") as! ContactHeader
       hdr.titleLabel.text = sections[section]
       return hdr.contentView
+   }
+   
+   // MARK: -
+   
+   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+      let key = sections[indexPath.section]
+      let contact = contacts[key]![indexPath.row]
+      
+      if contact.userId?.first != nil {
+         performSegue(withIdentifier: "detail", sender: contact)
+         
+      } else if MFMessageComposeViewController.canSendText() {
+         composeMessage(for: contact)
+
+      } else if let number = contact.numbers?.first, let url = URL(string: "sms:\(number)") {
+         UIApplication.shared.open(url, options: [:])
+      }
+   }
+}
+
+
+// MARK: -
+
+let invitation = "Hola, estoy usando La App. ¡Pruébala!"
+
+extension ActiveContactsViewController: MFMessageComposeViewControllerDelegate {
+   
+   internal func composeMessage(for contact: LocalContact) {
+      let messageCompose = MFMessageComposeViewController()
+      messageCompose.body = invitation
+      messageCompose.recipients = contact.numbers
+      messageCompose.messageComposeDelegate = self
+      present(messageCompose, animated: true)
+   }
+   
+   func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+      controller.dismiss(animated: true)
    }
 }
 
