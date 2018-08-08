@@ -97,5 +97,11 @@ extension NSFetchRequestResult where Self: NSManagedObject {
       request.sortDescriptors = sorted
       return try! NSManagedObjectContext.shared.fetch(request)
    }
+   
+   static func deleteAll() throws {
+      let container = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
+      let deleteRequest = NSBatchDeleteRequest(fetchRequest: NSFetchRequest(entityName: name))
+      try container.persistentStoreCoordinator.execute(deleteRequest, with: container.viewContext)
+   }
 }
 
