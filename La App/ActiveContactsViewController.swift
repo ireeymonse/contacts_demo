@@ -15,7 +15,7 @@ extension Notification.Name {
    public static let ContactsLoaded = Notification.Name("notif:contacts.loaded!")
 }
 
-class ActiveContactsViewController: UIViewController {
+class ActiveContactsViewController: BaseViewController {
    
    @IBOutlet weak var tableView: UITableView!
    
@@ -51,9 +51,11 @@ class ActiveContactsViewController: UIViewController {
    // MARK: - Data
    
    class ContactResult: NSObject {
+      var identifier: String!
       var name: String!
       var initials: String!
       var numbers: [String]!
+      var thumbnailData: Data?
    }
    
    internal func fetchContacts() {
@@ -81,19 +83,20 @@ class ActiveContactsViewController: UIViewController {
          }
          
          // get contacts
-         let keys = [CNContactGivenNameKey, CNContactMiddleNameKey, CNContactFamilyNameKey,
-                     CNContactPhoneNumbersKey] as [CNKeyDescriptor]
+         let keys = [CNContactGivenNameKey, CNContactMiddleNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey, CNContactThumbnailImageDataKey] as [CNKeyDescriptor]
          
          var results = [ContactResult]()
          try? contactStore.enumerateContacts(with: CNContactFetchRequest(keysToFetch: keys)) { (contact, _) in
             
             let new = ContactResult()
+            new.identifier = contact.identifier
             
             // retrieve full name and phone numbers
             new.name = [contact.givenName, contact.middleName, contact.familyName]
                .filter { !$0.isEmpty }.joined(separator: " ")
             new.initials = String([contact.givenName.first, contact.familyName.first].compactMap { $0 })
             new.numbers = contact.phoneNumbers.map { $0.value.stringValue }
+            new.thumbnailData = contact.thumbnailImageData
             
             results.append(new)
          }
@@ -105,9 +108,11 @@ class ActiveContactsViewController: UIViewController {
             
             results.forEach {
                let local = LocalContact.insert()
+               local.identifier = $0.identifier
                local.name = $0.name
                local.initials = $0.initials
                local.numbers = $0.numbers
+               local.thumbnailData = $0.thumbnailData
             }
             try? NSManagedObjectContext.shared.save()
             
@@ -189,13 +194,11 @@ extension ActiveContactsViewController: UITableViewDataSource, UITableViewDelega
       }
       cell.subtitleLabel.text = contact.userId
       
-      // TODO: cell.iconView.image = ...
+      cell.iconView?.image = contact.thumbnail
       cell.iconView?.backgroundColor = (contact.userId ?? "").isEmpty ? #colorLiteral(red: 0.7058823529, green: 0.7058823529, blue: 0.7058823529, alpha: 1) : #colorLiteral(red: 0.1875, green: 0.740625, blue: 0.75, alpha: 1)
       
-      cell.initialsLabel?.text = contact.initials
-      if contact.initials == nil || contact.initials!.isEmpty {
-         cell.initialsLabel?.text = ":D"
-      }
+      cell.initialsLabel?.text = cell.iconView?.image != nil ? "":
+         contact.initials?.first != nil ? contact.initials : ":D"
       
       return cell
    }
