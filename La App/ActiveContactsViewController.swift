@@ -21,10 +21,13 @@ class ActiveContactsViewController: UIViewController {
    
    internal var sections = [String]()
    internal var contacts = [String: [LocalContact]]()
+   internal var search: NSPredicate?
    
    override func viewDidLoad() {
       super.viewDidLoad()
       fetchContacts()
+      
+      configureSearchBar()
       
       NotificationCenter.default.addObserver(self, selector:
          #selector(contactsNeedReload(_:)), name: .ActiveUsersDidChange, object: nil)
@@ -127,6 +130,11 @@ class ActiveContactsViewController: UIViewController {
          $0.userId = $0.numbers?.first {
             actives.contains(ActiveUser.userId(from: $0)) }
          
+         // search
+         if let search = search, !$0.matches(search) {
+            return
+         }
+         
          var key = String($0.name?.uppercased().first ?? "#")
          if $0.userId != nil {   // active users go in the first section
             key = ""
@@ -224,7 +232,41 @@ extension ActiveContactsViewController: UITableViewDataSource, UITableViewDelega
 }
 
 
-// MARK: -
+// MARK: - Search
+
+extension ActiveContactsViewController: UISearchResultsUpdating {
+   
+   func configureSearchBar() {
+      let searchController = UISearchController(searchResultsController: nil)
+      searchController.searchBar.tintColor = .darkGray
+      searchController.searchBar.setImage(#imageLiteral(resourceName: "search"), for: .search, state: .normal)
+      searchController.obscuresBackgroundDuringPresentation = false
+      searchController.hidesNavigationBarDuringPresentation = false
+      searchController.searchResultsUpdater = self
+      
+      let appearance = UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self])
+      appearance.defaultTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)]
+      appearance.attributedPlaceholder = NSAttributedString(
+         string: "Buscar nombre o teléfono", attributes: [NSAttributedStringKey.foregroundColor: #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)])
+      
+      navigationItem.searchController = searchController
+      navigationItem.hidesSearchBarWhenScrolling = false
+      
+      definesPresentationContext = true
+   }
+   
+   func updateSearchResults(for searchController: UISearchController) {
+      let trimmingChars = CharacterSet.whitespacesAndNewlines.union(.punctuationCharacters)
+      search = nil
+      if let text = searchController.searchBar.text?.trimmingCharacters(in: trimmingChars), !text.isEmpty {
+         search = NSPredicate(format: "SELF CONTAINS[cd] %@", text)
+      }
+      reloadContacts()
+   }
+}
+
+
+// MARK: - Invitation message
 
 let invitation = "Hola, estoy usando La App. ¡Pruébala!"
 

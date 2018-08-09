@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    var window: UIWindow?
 
    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+      // avoids a weird effect when navigating
+      window?.backgroundColor = .white
       
       reloadActiveUsers(notifying: false)
       return true

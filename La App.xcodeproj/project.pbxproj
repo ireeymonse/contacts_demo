@@ -10,6 +10,7 @@
 		105439CE211A569100B0253C /* ActiveContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105439CD211A569100B0253C /* ActiveContactsViewController.swift */; };
 		10B015F4211B8FF90040E936 /* ContactDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B015F3211B8FF90040E936 /* ContactDetailsViewController.swift */; };
 		10B015F6211BAD1F0040E936 /* ActiveContactsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B015F5211BAD1F0040E936 /* ActiveContactsTests.swift */; };
+		10B015F8211BF7980040E936 /* LocalContact+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B015F7211BF7980040E936 /* LocalContact+.swift */; };
 		10D3570E211B38E1006DA522 /* ActiveUserCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D3570D211B38E1006DA522 /* ActiveUserCreationViewController.swift */; };
 		10D35710211B4078006DA522 /* ActiveUser+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D3570F211B4078006DA522 /* ActiveUser+.swift */; };
 		10E98A0A2117E8FA008EF0FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E98A092117E8FA008EF0FB /* AppDelegate.swift */; };
@@ -33,6 +34,7 @@
 		105439CD211A569100B0253C /* ActiveContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveContactsViewController.swift; sourceTree = "<group>"; };
 		10B015F3211B8FF90040E936 /* ContactDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsViewController.swift; sourceTree = "<group>"; };
 		10B015F5211BAD1F0040E936 /* ActiveContactsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveContactsTests.swift; sourceTree = "<group>"; };
+		10B015F7211BF7980040E936 /* LocalContact+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalContact+.swift"; sourceTree = "<group>"; };
 		10D3570D211B38E1006DA522 /* ActiveUserCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveUserCreationViewController.swift; sourceTree = "<group>"; };
 		10D3570F211B4078006DA522 /* ActiveUser+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ActiveUser+.swift"; sourceTree = "<group>"; };
 		10E98A062117E8FA008EF0FB /* La App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "La App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,6 +81,7 @@
 			children = (
 				10E98A102117E8FA008EF0FB /* La_App.xcdatamodeld */,
 				10D3570F211B4078006DA522 /* ActiveUser+.swift */,
+				10B015F7211BF7980040E936 /* LocalContact+.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 				10D3570E211B38E1006DA522 /* ActiveUserCreationViewController.swift in Sources */,
 				10D35710211B4078006DA522 /* ActiveUser+.swift in Sources */,
 				10B015F4211B8FF90040E936 /* ContactDetailsViewController.swift in Sources */,
+				10B015F8211BF7980040E936 /* LocalContact+.swift in Sources */,
 				10E98A122117E8FA008EF0FB /* La_App.xcdatamodeld in Sources */,
 				10E98A0A2117E8FA008EF0FB /* AppDelegate.swift in Sources */,
 				105439CE211A569100B0253C /* ActiveContactsViewController.swift in Sources */,
@@ -394,7 +398,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 33KNHRG5VB;
 				INFOPLIST_FILE = "La App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				IPHONEOS_DEPLOYMENT_TARGET = 11;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -415,7 +419,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 33KNHRG5VB;
 				INFOPLIST_FILE = "La App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				IPHONEOS_DEPLOYMENT_TARGET = 11;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
