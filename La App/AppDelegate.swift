@@ -93,8 +93,11 @@ extension NSFetchRequestResult where Self: NSManagedObject {
    
    /// Inserts a new NSManagedObject subclass instance in the shared context.
    /// *WARNING: don't call this on `NSManagedObject` directly
-   static func insert() -> Self {
+   static func insert(with dict:[String: Any]? = nil) -> Self {
       let new = NSEntityDescription.insertNewObject(forEntityName: name, into: NSManagedObjectContext.shared)
+      for (key, val) in dict ?? [:] {
+         new.setValue(val, forKey: key)
+      }
       return new as! Self
    }
    

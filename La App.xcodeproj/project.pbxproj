@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		105439CE211A569100B0253C /* ActiveContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105439CD211A569100B0253C /* ActiveContactsViewController.swift */; };
 		10B015F4211B8FF90040E936 /* ContactDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B015F3211B8FF90040E936 /* ContactDetailsViewController.swift */; };
+		10B015F6211BAD1F0040E936 /* ActiveContactsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B015F5211BAD1F0040E936 /* ActiveContactsTests.swift */; };
 		10D3570E211B38E1006DA522 /* ActiveUserCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D3570D211B38E1006DA522 /* ActiveUserCreationViewController.swift */; };
 		10D35710211B4078006DA522 /* ActiveUser+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D3570F211B4078006DA522 /* ActiveUser+.swift */; };
 		10E98A0A2117E8FA008EF0FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E98A092117E8FA008EF0FB /* AppDelegate.swift */; };
@@ -16,7 +17,6 @@
 		10E98A122117E8FA008EF0FB /* La_App.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 10E98A102117E8FA008EF0FB /* La_App.xcdatamodeld */; };
 		10E98A142117E8FC008EF0FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 10E98A132117E8FC008EF0FB /* Assets.xcassets */; };
 		10E98A172117E8FC008EF0FB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 10E98A152117E8FC008EF0FB /* LaunchScreen.storyboard */; };
-		10E98A222117E8FC008EF0FB /* La_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E98A212117E8FC008EF0FB /* La_AppTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +32,7 @@
 /* Begin PBXFileReference section */
 		105439CD211A569100B0253C /* ActiveContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveContactsViewController.swift; sourceTree = "<group>"; };
 		10B015F3211B8FF90040E936 /* ContactDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsViewController.swift; sourceTree = "<group>"; };
+		10B015F5211BAD1F0040E936 /* ActiveContactsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveContactsTests.swift; sourceTree = "<group>"; };
 		10D3570D211B38E1006DA522 /* ActiveUserCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveUserCreationViewController.swift; sourceTree = "<group>"; };
 		10D3570F211B4078006DA522 /* ActiveUser+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ActiveUser+.swift"; sourceTree = "<group>"; };
 		10E98A062117E8FA008EF0FB /* La App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "La App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -42,7 +43,6 @@
 		10E98A162117E8FC008EF0FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		10E98A182117E8FC008EF0FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		10E98A1D2117E8FC008EF0FB /* La AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "La AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		10E98A212117E8FC008EF0FB /* La_AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = La_AppTests.swift; sourceTree = "<group>"; };
 		10E98A232117E8FC008EF0FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -118,8 +118,8 @@
 		10E98A202117E8FC008EF0FB /* La AppTests */ = {
 			isa = PBXGroup;
 			children = (
-				10E98A212117E8FC008EF0FB /* La_AppTests.swift */,
 				10E98A232117E8FC008EF0FB /* Info.plist */,
+				10B015F5211BAD1F0040E936 /* ActiveContactsTests.swift */,
 			);
 			path = "La AppTests";
 			sourceTree = "<group>";
@@ -238,7 +238,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10E98A222117E8FC008EF0FB /* La_AppTests.swift in Sources */,
+				10B015F6211BAD1F0040E936 /* ActiveContactsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,6 +434,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 33KNHRG5VB;
 				INFOPLIST_FILE = "La AppTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -454,6 +455,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 33KNHRG5VB;
 				INFOPLIST_FILE = "La AppTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

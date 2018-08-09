@@ -11,6 +11,10 @@ import Contacts
 import CoreData
 import MessageUI
 
+extension Notification.Name {
+   public static let ContactsLoaded = Notification.Name("notif:contacts.loaded!")
+}
+
 class ActiveContactsViewController: UIViewController {
    
    @IBOutlet weak var tableView: UITableView!
@@ -40,7 +44,14 @@ class ActiveContactsViewController: UIViewController {
       NotificationCenter.default.removeObserver(self)
    }
    
+   
    // MARK: - Data
+   
+   class ContactResult: NSObject {
+      var name: String!
+      var initials: String!
+      var numbers: [String]!
+   }
    
    internal func fetchContacts() {
       let contactStore = CNContactStore()
@@ -126,6 +137,8 @@ class ActiveContactsViewController: UIViewController {
       
       sections = contacts.keys.sorted()
       tableView.reloadData()
+      
+      NotificationCenter.default.post(name: .ContactsLoaded, object: nil)
    }
    
    
@@ -193,6 +206,8 @@ extension ActiveContactsViewController: UITableViewDataSource, UITableViewDelega
    // MARK: -
    
    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+      tableView.deselectRow(at: indexPath, animated: true)
+      
       let key = sections[indexPath.section]
       let contact = contacts[key]![indexPath.row]
       
@@ -241,15 +256,6 @@ class ContactCell: UITableViewCell {
    
    @IBOutlet weak var iconView: UIImageView?
    @IBOutlet weak var initialsLabel: UILabel?
-}
-
-
-// FIXME: relocate
-
-class ContactResult: NSObject {
-   var name: String!
-   var initials: String!
-   var numbers: [String]!
 }
 
 
